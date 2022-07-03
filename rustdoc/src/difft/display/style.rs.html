@@ -510,10 +510,6 @@
 <span id="510">510</span>
 <span id="511">511</span>
 <span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Apply colours and styling to strings.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -802,15 +798,15 @@
             }
             <span class="ident">MatchKind::Novel</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">style</span> <span class="op">=</span> <span class="ident">novel_style</span>(<span class="ident">style</span>, <span class="ident">is_lhs</span>, <span class="ident">background</span>);
-                <span class="kw">if</span> <span class="ident">syntax_highlight</span> {
-                    <span class="kw">if</span> <span class="macro">matches!</span>(
+                <span class="kw">if</span> <span class="ident">syntax_highlight</span>
+                    <span class="op">&amp;&amp;</span> <span class="macro">matches!</span>(
                         <span class="ident">highlight</span>,
                         <span class="ident">TokenKind::Delimiter</span>
                             <span class="op">|</span> <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Keyword</span>)
                             <span class="op">|</span> <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Type</span>)
-                    ) {
-                        <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bold</span>();
-                    }
+                    )
+                {
+                    <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bold</span>();
                 }
                 <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)) {
                     <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
@@ -818,18 +814,14 @@
             }
             <span class="ident">MatchKind::NovelWord</span> { <span class="ident">highlight</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">style</span> <span class="op">=</span> <span class="ident">novel_style</span>(<span class="ident">style</span>, <span class="ident">is_lhs</span>, <span class="ident">background</span>).<span class="ident">bold</span>();
-                <span class="kw">if</span> <span class="ident">syntax_highlight</span> {
-                    <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)) {
-                        <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
-                    }
+                <span class="kw">if</span> <span class="ident">syntax_highlight</span> <span class="op">&amp;&amp;</span> <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)) {
+                    <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
                 }
             }
             <span class="ident">MatchKind::NovelLinePart</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">style</span> <span class="op">=</span> <span class="ident">novel_style</span>(<span class="ident">style</span>, <span class="ident">is_lhs</span>, <span class="ident">background</span>);
-                <span class="kw">if</span> <span class="ident">syntax_highlight</span> {
-                    <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)) {
-                        <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
-                    }
+                <span class="kw">if</span> <span class="ident">syntax_highlight</span> <span class="op">&amp;&amp;</span> <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)) {
+                    <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
                 }
             }
         };
