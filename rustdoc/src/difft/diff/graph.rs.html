@@ -1049,7 +1049,7 @@
         <span class="kw">if</span> <span class="ident">lhs_syntax</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_syntax</span> {
             <span class="kw">let</span> <span class="ident">depth_difference</span> <span class="op">=</span> (<span class="ident">lhs_syntax</span>.<span class="ident">num_ancestors</span>() <span class="kw">as</span> <span class="ident">i32</span>
                 <span class="op">-</span> <span class="ident">rhs_syntax</span>.<span class="ident">num_ancestors</span>() <span class="kw">as</span> <span class="ident">i32</span>)
-                .<span class="ident">abs</span>() <span class="kw">as</span> <span class="ident">u32</span>;
+                .<span class="ident">unsigned_abs</span>();
 
             <span class="comment">// Both nodes are equal, the happy case.</span>
             <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
@@ -1091,7 +1091,7 @@
 
                 <span class="kw">let</span> <span class="ident">depth_difference</span> <span class="op">=</span> (<span class="ident">lhs_syntax</span>.<span class="ident">num_ancestors</span>() <span class="kw">as</span> <span class="ident">i32</span>
                     <span class="op">-</span> <span class="ident">rhs_syntax</span>.<span class="ident">num_ancestors</span>() <span class="kw">as</span> <span class="ident">i32</span>)
-                    .<span class="ident">abs</span>() <span class="kw">as</span> <span class="ident">u32</span>;
+                    .<span class="ident">unsigned_abs</span>();
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">EnterUnchangedDelimiter</span> { <span class="ident">depth_difference</span> },
