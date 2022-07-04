@@ -358,6 +358,7 @@ commit message.</p>
 <table><thead><tr><th>Language</th><th>Parser Used</th></tr></thead><tbody>
 <tr><td>CSS</td><td><a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter/tree-sitter-css</a></td></tr>
 <tr><td>HCL</td><td><a href="https://github.com/MichaHoffmann/tree-sitter-hcl">MichaHoffmann/tree-sitter-hcl</a></td></tr>
+<tr><td>HTML</td><td><a href="https://github.com/tree-sitter/tree-sitter-html">tree-sitter/tree-sitter-html</a></td></tr>
 <tr><td>JSON</td><td><a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter/tree-sitter-json</a></td></tr>
 <tr><td>TOML</td><td><a href="https://github.com/ikatyang/tree-sitter-toml">ikatyang/tree-sitter-toml</a></td></tr>
 <tr><td>YAML</td><td><a href="https://github.com/ikatyang/tree-sitter-yaml">ikatyang/tree-sitter-yaml</a></td></tr>
@@ -919,6 +920,8 @@ was unchanged.</p>
 <p>You can use <code>difft --dump-ts foo.json</code> to see the results of the
 tree-sitter parser, and <code>difft --dump-syntax foo.json</code> to confirm that
 you've set atoms and delimiters correctly.</p>
+<h2 id="configure-sliders"><a class="header" href="#configure-sliders">Configure sliders</a></h2>
+<p>Add an entry to <code>sliders.rs</code> for your language.</p>
 <h2 id="configure-language-detection"><a class="header" href="#configure-language-detection">Configure language detection</a></h2>
 <p>Update <code>from_extension</code> in <code>guess_language.rs</code> to detect your new
 language.</p>
