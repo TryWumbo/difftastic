@@ -405,6 +405,9 @@
 <span id="405">405</span>
 <span id="406">406</span>
 <span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
 </pre><pre class="rust"><code><span class="doccomment">//! CLI option parsing.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>, <span class="ident">ffi::OsString</span>};
@@ -415,8 +418,11 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">display::style::BackgroundColor</span>, <span class="ident">parse::guess_language</span>};
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_NODE_LIMIT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">30_000</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_BYTE_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1_000_000</span>;
+<span class="comment">// Chosen experimentally: this is sufficiently many for all the sample</span>
+<span class="comment">// files (the highest is slow_before/after.rs at 1.3M nodes), but</span>
+<span class="comment">// small enough to terminate in ~5 seconds like the test file in #306.</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_GRAPH_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">3_000_000</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_TAB_WIDTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">8</span>;
 
 <span class="kw">const</span> <span class="ident">USAGE</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_BIN_NAME&quot;</span>), <span class="string">&quot; [OPTIONS] OLD-PATH NEW-PATH&quot;</span>);
@@ -541,22 +547,22 @@
                 <span class="comment">// TODO: support DFT_LANGUAGE for consistency</span>
         )
         .<span class="ident">arg</span>(
-            <span class="ident">Arg::new</span>(<span class="string">&quot;node-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;node-limit&quot;</span>)
-                .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
-                .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
-                .<span class="ident">help</span>(<span class="macro">concat!</span>(<span class="string">&quot;Use a text diff if the number of syntax nodes exceeds this number.&quot;</span>))
-                .<span class="ident">default_value</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">DEFAULT_NODE_LIMIT</span>))
-                .<span class="ident">env</span>(<span class="string">&quot;DFT_NODE_LIMIT&quot;</span>)
-                .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>())
-                .<span class="ident">required</span>(<span class="bool-val">false</span>),
-        )
-        .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;byte-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;byte-limit&quot;</span>)
                 .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
                 .<span class="ident">help</span>(<span class="macro">concat!</span>(<span class="string">&quot;Use a text diff if either input file exceeds this size.&quot;</span>))
                 .<span class="ident">default_value</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">DEFAULT_BYTE_LIMIT</span>))
                 .<span class="ident">env</span>(<span class="string">&quot;DFT_BYTE_LIMIT&quot;</span>)
+                .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
+                .<span class="ident">required</span>(<span class="bool-val">false</span>),
+        )
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;graph-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;graph-limit&quot;</span>)
+                .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
+                .<span class="ident">help</span>(<span class="macro">concat!</span>(<span class="string">&quot;Use a text diff if the structural graph exceed this number of nodes in memory.&quot;</span>))
+                .<span class="ident">default_value</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">DEFAULT_GRAPH_LIMIT</span>))
+                .<span class="ident">env</span>(<span class="string">&quot;DFT_GRAPH_LIMIT&quot;</span>)
                 .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
                 .<span class="ident">required</span>(<span class="bool-val">false</span>),
         )
@@ -579,7 +585,7 @@
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
     <span class="ident">Diff</span> {
-        <span class="ident">node_limit</span>: <span class="ident">u32</span>,
+        <span class="ident">graph_limit</span>: <span class="ident">usize</span>,
         <span class="ident">byte_limit</span>: <span class="ident">usize</span>,
         <span class="ident">display_options</span>: <span class="ident">DisplayOptions</span>,
         <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
@@ -731,10 +737,10 @@
 
     <span class="kw">let</span> <span class="ident">syntax_highlight</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;syntax-highlight&quot;</span>) <span class="op">=</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;on&quot;</span>);
 
-    <span class="kw">let</span> <span class="ident">node_limit</span> <span class="op">=</span> <span class="ident">matches</span>
-        .<span class="ident">value_of</span>(<span class="string">&quot;node-limit&quot;</span>)
+    <span class="kw">let</span> <span class="ident">graph_limit</span> <span class="op">=</span> <span class="ident">matches</span>
+        .<span class="ident">value_of</span>(<span class="string">&quot;graph-limit&quot;</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;Always present as we&#39;ve given clap a default&quot;</span>)
-        .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>()
+        .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()
         .<span class="ident">expect</span>(<span class="string">&quot;Value already validated by clap&quot;</span>);
 
     <span class="kw">let</span> <span class="ident">byte_limit</span> <span class="op">=</span> <span class="ident">matches</span>
@@ -766,7 +772,7 @@
     };
 
     <span class="ident">Mode::Diff</span> {
-        <span class="ident">node_limit</span>,
+        <span class="ident">graph_limit</span>,
         <span class="ident">byte_limit</span>,
         <span class="ident">display_options</span>,
         <span class="ident">missing_as_empty</span>,
