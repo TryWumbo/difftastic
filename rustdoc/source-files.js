@@ -60,6 +60,7 @@ sourcesIndex["tree_magic_mini"] = {"name":"","dirs":[{"name":"basetype","files":
 sourcesIndex["tree_sitter"] = {"name":"","files":["ffi.rs","lib.rs","util.rs"]};
 sourcesIndex["typed_arena"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["unicode_ident"] = {"name":"","files":["lib.rs","tables.rs"]};
+sourcesIndex["unicode_width"] = {"name":"","files":["lib.rs","tables.rs"]};
 sourcesIndex["unicode_xid"] = {"name":"","files":["lib.rs","tables.rs"]};
 sourcesIndex["walkdir"] = {"name":"","files":["dent.rs","error.rs","lib.rs","util.rs"]};
 sourcesIndex["wu_diff"] = {"name":"","files":["lib.rs"]};
