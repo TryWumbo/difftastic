@@ -318,6 +318,8 @@
 <span id="318">318</span>
 <span id="319">319</span>
 <span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -359,6 +361,7 @@
     <span class="ident">Java</span>,
     <span class="ident">JavaScript</span>,
     <span class="ident">Json</span>,
+    <span class="ident">Julia</span>,
     <span class="ident">Jsx</span>,
     <span class="ident">Kotlin</span>,
     <span class="ident">Lua</span>,
@@ -552,6 +555,7 @@
         <span class="op">|</span> <span class="string">&quot;mcmeta&quot;</span> <span class="op">|</span> <span class="string">&quot;tfstate&quot;</span> <span class="op">|</span> <span class="string">&quot;tfstate.backup&quot;</span> <span class="op">|</span> <span class="string">&quot;topojson&quot;</span> <span class="op">|</span> <span class="string">&quot;webapp&quot;</span> <span class="op">|</span> <span class="string">&quot;webmanifest&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="prelude-val">Some</span>(<span class="ident">Json</span>)
         }
+        <span class="string">&quot;jl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Julia</span>),
         <span class="string">&quot;kt&quot;</span> <span class="op">|</span> <span class="string">&quot;ktm&quot;</span> <span class="op">|</span> <span class="string">&quot;kts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Kotlin</span>),
         <span class="string">&quot;lua&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Lua</span>),
         <span class="string">&quot;nix&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Nix</span>),

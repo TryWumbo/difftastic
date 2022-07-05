@@ -1181,6 +1181,24 @@
 <span id="1181">1181</span>
 <span id="1182">1182</span>
 <span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1247,6 +1265,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_java</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_javascript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_json</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_julia</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_kotlin</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_lua</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_nix</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
@@ -1626,6 +1645,23 @@
                     <span class="macro">include_str!</span>(<span class="string">&quot;../../vendor/highlights/json.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Julia</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_julia</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;Julia&quot;</span>,
+                <span class="ident">language</span>,
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[
+                    <span class="string">&quot;string_literal&quot;</span>,
+                    <span class="string">&quot;prefixed_string_literal&quot;</span>,
+                    <span class="string">&quot;command_literal&quot;</span>,
+                    <span class="string">&quot;character_literal&quot;</span>,
+                ]
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Kotlin</span> <span class="op">=</span><span class="op">&gt;</span> {
