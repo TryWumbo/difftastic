@@ -1199,6 +1199,11 @@
 <span id="1199">1199</span>
 <span id="1200">1200</span>
 <span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1661,7 +1666,11 @@
                 .<span class="ident">into_iter</span>()
                 .<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
-                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
+                    <span class="ident">language</span>,
+                    <span class="macro">include_str!</span>(<span class="string">&quot;../../vendor/highlights/julia.scm&quot;</span>),
+                )
+                .<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Kotlin</span> <span class="op">=</span><span class="op">&gt;</span> {
@@ -1997,6 +2006,7 @@
             <span class="op">|</span><span class="op">|</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;constant.&quot;</span>)
             <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;operator&quot;</span>
             <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;repeat&quot;</span>
+            <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;conditional&quot;</span>
             <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;boolean&quot;</span>
         {
             <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span> <span class="kw">as</span> <span class="ident">u32</span>);
