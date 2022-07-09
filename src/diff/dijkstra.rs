@@ -21,14 +21,13 @@ pub struct ExceededGraphLimit {}
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path(
     start: Vertex,
-    size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<Vertex>, ExceededGraphLimit> {
     let mut parts = vec![];
 
     let mut start = start;
     loop {
-        match shortest_vertex_path_iter(start, size_hint, graph_limit) {
+        match shortest_vertex_path_iter(start, graph_limit) {
             Ok(part) => {
                 parts.extend(part);
                 break;
@@ -47,7 +46,6 @@ fn shortest_vertex_path(
 
 fn shortest_vertex_path_iter(
     start: Vertex,
-    size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<Vertex>, Vec<Vertex>> {
     // We want to visit nodes with the shortest distance first, but
@@ -61,7 +59,7 @@ fn shortest_vertex_path_iter(
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
     let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
-    predecessors.reserve(size_hint);
+    predecessors.reserve(graph_limit);
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
@@ -144,10 +142,9 @@ fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)>
 /// necessary because a route of N vertices only has N-1 edges.
 fn shortest_path(
     start: Vertex,
-    size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, Vertex)>, ExceededGraphLimit> {
-    let vertex_path = shortest_vertex_path(start, size_hint, graph_limit)?;
+    let vertex_path = shortest_vertex_path(start, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
@@ -234,14 +231,8 @@ pub fn mark_syntax<'a>(
         tree_count(rhs_syntax),
     );
 
-    // When there are a large number of changes, we end up building a
-    // graph whose size is roughly quadratic. Use this as a size hint,
-    // so we don't spend too much time re-hashing and expanding the
-    // predecessors hashmap.
-    let size_hint = lhs_node_count * rhs_node_count;
-
     let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start, size_hint, graph_limit)?;
+    let route = shortest_path(start, graph_limit)?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -312,7 +303,7 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -352,7 +343,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -394,7 +385,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -440,7 +431,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -479,7 +470,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -516,7 +507,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -554,7 +545,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -588,7 +579,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -619,7 +610,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -658,7 +649,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
