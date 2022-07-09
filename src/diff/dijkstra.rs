@@ -24,6 +24,32 @@ fn shortest_vertex_path(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<Vertex>, ExceededGraphLimit> {
+    let mut parts = vec![];
+
+    let mut start = start;
+    loop {
+        match shortest_vertex_path_iter(start, size_hint, graph_limit) {
+            Ok(part) => {
+                parts.extend(part);
+                break;
+            }
+            Err(mut part) => {
+                // remove last node, to avoid duplicates when extending.
+                start = part.pop().expect("Should be a non-empty route part");
+                parts.extend(part);
+            }
+        }
+    }
+
+    // TODO: Joining parts will have introduced duplicates.
+    Ok(parts)
+}
+
+fn shortest_vertex_path_iter(
+    start: Vertex,
+    size_hint: usize,
+    graph_limit: usize,
+) -> Result<Vec<Vertex>, Vec<Vertex>> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
@@ -64,7 +90,7 @@ fn shortest_vertex_path(
                     }
                 }
                 if predecessors.len() > graph_limit {
-                    return Err(ExceededGraphLimit {});
+                    break current;
                 }
             }
             None => panic!("Ran out of graph nodes before reaching end"),
@@ -87,7 +113,12 @@ fn shortest_vertex_path(
     }
 
     vertex_route.reverse();
-    Ok(vertex_route)
+
+    if end.is_end() {
+        Ok(vertex_route)
+    } else {
+        Err(vertex_route)
+    }
 }
 
 fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)> {
