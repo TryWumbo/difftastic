@@ -64,11 +64,18 @@ fn shortest_vertex_path_iter(
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
     ];
+    let mut current_closest = None;
+    let mut current_closest_score = u64::MAX;
     let end = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
                 if current.is_end() {
                     break current;
+                }
+                let estimated_total = estimated_distance_remaining(current);
+                if estimated_total < current_closest_score && current != &start {
+                    current_closest = Some(current);
+                    current_closest_score = estimated_total;
                 }
 
                 neighbours(current, &mut neighbour_buf, &vertex_arena);
@@ -88,7 +95,7 @@ fn shortest_vertex_path_iter(
                     }
                 }
                 if predecessors.len() > graph_limit {
-                    break current;
+                    break current_closest.unwrap();
                 }
             }
             None => panic!("Ran out of graph nodes before reaching end"),
@@ -183,7 +190,6 @@ fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
         before, after
     );
 }
-
 
 // Admissible, but not consistent (not monotone).
 fn estimated_distance_remaining(v: &Vertex) -> u64 {
