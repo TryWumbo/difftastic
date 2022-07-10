@@ -184,6 +184,34 @@ fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
     );
 }
 
+
+// Admissible, but not consistent (not monotone).
+fn estimated_distance_remaining(v: &Vertex) -> u64 {
+    let lhs_num_after = match v.lhs_syntax {
+        Some(lhs_syntax) => lhs_syntax.num_after() as u64,
+        None => 0,
+    };
+    let rhs_num_after = match v.rhs_syntax {
+        Some(rhs_syntax) => rhs_syntax.num_after() as u64,
+        None => 0,
+    };
+
+    let exit_costs = v.num_parents() as u64 * Edge::ExitDelimiterBoth.cost();
+
+    // Best case scenario: we match up all of these.
+    let max_common = std::cmp::min(lhs_num_after, rhs_num_after);
+    // For the remaining, they must be novel in some form.
+    let min_novel = std::cmp::max(lhs_num_after, rhs_num_after) - max_common;
+
+    max_common
+        * Edge::UnchangedNode {
+            depth_difference: 0,
+        }
+        .cost()
+        + min_novel * Edge::NovelAtomLHS { contiguous: true }.cost()
+        + exit_costs
+}
+
 /// What is the total number of AST nodes?
 fn node_count(root: Option<&Syntax>) -> u32 {
     let mut node = root;
