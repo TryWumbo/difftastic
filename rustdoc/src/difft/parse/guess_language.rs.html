@@ -320,6 +320,9 @@
 <span id="320">320</span>
 <span id="321">321</span>
 <span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -374,6 +377,7 @@
     <span class="ident">Ruby</span>,
     <span class="ident">Rust</span>,
     <span class="ident">Scala</span>,
+    <span class="ident">Sql</span>,
     <span class="ident">Swift</span>,
     <span class="ident">Toml</span>,
     <span class="ident">Tsx</span>,
@@ -449,6 +453,7 @@
             <span class="string">&quot;rust&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Rust</span>),
             <span class="string">&quot;scala&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
             <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
+            <span class="string">&quot;sql&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Sql</span>),
             <span class="string">&quot;swift&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Swift</span>),
             <span class="string">&quot;toml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Toml</span>),
             <span class="string">&quot;tuareg&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
@@ -567,6 +572,7 @@
         <span class="string">&quot;rb&quot;</span> <span class="op">|</span> <span class="string">&quot;builder&quot;</span> <span class="op">|</span> <span class="string">&quot;spec&quot;</span> <span class="op">|</span> <span class="string">&quot;rake&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ruby</span>),
         <span class="string">&quot;rs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Rust</span>),
         <span class="string">&quot;scala&quot;</span> <span class="op">|</span> <span class="string">&quot;sbt&quot;</span> <span class="op">|</span> <span class="string">&quot;sc&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
+        <span class="string">&quot;sql&quot;</span> <span class="op">|</span> <span class="string">&quot;pgsql&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Sql</span>),
         <span class="string">&quot;swift&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Swift</span>),
         <span class="string">&quot;toml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Toml</span>),
         <span class="string">&quot;ts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),

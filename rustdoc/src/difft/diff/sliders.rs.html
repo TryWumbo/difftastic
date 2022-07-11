@@ -732,6 +732,10 @@
 <span id="732">732</span>
 <span id="733">733</span>
 <span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Prefer contiguous novel nodes on the same line.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! A slider takes the following form:</span>
@@ -794,6 +798,10 @@
         <span class="comment">// JSON and TOML are like Lisp: the outer delimiter in an array object</span>
         <span class="comment">// is the most relevant.</span>
         <span class="ident">Json</span> <span class="op">|</span> <span class="ident">Toml</span> <span class="op">|</span> <span class="ident">Hcl</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+        <span class="comment">// It&#39;s probably the case that outer delimiters are used more</span>
+        <span class="comment">// frequently than inner delimiters in SQl. (foo = 1 OR bar = 2)</span>
+        <span class="comment">// is more likely than foo(1).</span>
+        <span class="ident">Sql</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
         <span class="comment">// For everything else, prefer the inner delimiter. These</span>
         <span class="comment">// languages have syntax like `foo(bar)` or `foo[bar]` where</span>
         <span class="comment">// the inner delimiter is more relevant.</span>

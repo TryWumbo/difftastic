@@ -1204,6 +1204,21 @@
 <span id="1204">1204</span>
 <span id="1205">1205</span>
 <span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1282,6 +1297,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_ruby</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_rust</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_scala</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_sql</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_swift</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_toml</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_tsx</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
@@ -1852,6 +1868,20 @@
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../../vendor/highlights/scala.scm&quot;</span>),
+                )
+                .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Sql</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_sql</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;SQL&quot;</span>,
+                <span class="ident">language</span>,
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;identifier&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
+                    <span class="ident">language</span>,
+                    <span class="macro">include_str!</span>(<span class="string">&quot;../../vendor/highlights/sql.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
             }
