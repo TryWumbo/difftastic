@@ -323,6 +323,14 @@
 <span id="323">323</span>
 <span id="324">324</span>
 <span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -357,6 +365,7 @@
     <span class="ident">EmacsLisp</span>,
     <span class="ident">Gleam</span>,
     <span class="ident">Go</span>,
+    <span class="ident">Hack</span>,
     <span class="ident">Haskell</span>,
     <span class="ident">Hcl</span>,
     <span class="ident">Html</span>,
@@ -487,6 +496,7 @@
                     <span class="string">&quot;lisp&quot;</span> <span class="op">|</span> <span class="string">&quot;sbc&quot;</span> <span class="op">|</span> <span class="string">&quot;ccl&quot;</span> <span class="op">|</span> <span class="string">&quot;clisp&quot;</span> <span class="op">|</span> <span class="string">&quot;ecl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">CommonLisp</span>),
                     <span class="string">&quot;elixir&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Elixir</span>),
                     <span class="string">&quot;elvish&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Elvish</span>),
+                    <span class="string">&quot;hhvm&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>),
                     <span class="string">&quot;runghc&quot;</span> <span class="op">|</span> <span class="string">&quot;runhaskell&quot;</span> <span class="op">|</span> <span class="string">&quot;runhugs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
                     <span class="string">&quot;chakra&quot;</span> <span class="op">|</span> <span class="string">&quot;d8&quot;</span> <span class="op">|</span> <span class="string">&quot;gjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;node&quot;</span> <span class="op">|</span> <span class="string">&quot;nodejs&quot;</span> <span class="op">|</span> <span class="string">&quot;qjs&quot;</span> <span class="op">|</span> <span class="string">&quot;rhino&quot;</span> <span class="op">|</span> <span class="string">&quot;v8&quot;</span>
                     <span class="op">|</span> <span class="string">&quot;v8-shell&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
@@ -499,6 +509,11 @@
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 }
             }
+        }
+
+        <span class="comment">// Hack can use &lt;?hh in files with a .php extension.</span>
+        <span class="kw">if</span> <span class="ident">first_line</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;?hh&quot;</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>);
         }
     }
 
@@ -549,6 +564,7 @@
         <span class="string">&quot;elv&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Elvish</span>),
         <span class="string">&quot;gleam&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Gleam</span>),
         <span class="string">&quot;go&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Go</span>),
+        <span class="string">&quot;hack&quot;</span> <span class="op">|</span> <span class="string">&quot;hck&quot;</span> <span class="op">|</span> <span class="string">&quot;hhi&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>),
         <span class="string">&quot;hs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
         <span class="string">&quot;hcl&quot;</span> <span class="op">|</span> <span class="string">&quot;nomad&quot;</span> <span class="op">|</span> <span class="string">&quot;tf&quot;</span> <span class="op">|</span> <span class="string">&quot;tfvars&quot;</span> <span class="op">|</span> <span class="string">&quot;worfklow&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Hcl</span>),
         <span class="string">&quot;html&quot;</span> <span class="op">|</span> <span class="string">&quot;htm&quot;</span> <span class="op">|</span> <span class="string">&quot;xhtml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Html</span>),
