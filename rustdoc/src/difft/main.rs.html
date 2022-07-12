@@ -520,8 +520,6 @@
 <span id="520">520</span>
 <span id="521">521</span>
 <span id="522">522</span>
-<span id="523">523</span>
-<span id="524">524</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! For usage instructions and advice on contributing, see [the</span>
@@ -766,16 +764,14 @@
         <span class="ident">rhs_src</span>.<span class="ident">pop</span>();
     }
 
-    <span class="comment">// TODO: take a Path directly instead.</span>
-    <span class="kw">let</span> <span class="ident">guess_path</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_display_path</span>);
-
     <span class="comment">// Take the larger of the two files when guessing the</span>
     <span class="comment">// language. This is useful when we&#39;ve added or removed a whole</span>
     <span class="comment">// file.</span>
-    <span class="kw">let</span> <span class="ident">guess_src</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">lhs_src</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">rhs_src</span>.<span class="ident">len</span>() {
-        <span class="kw-2">&amp;</span><span class="ident">lhs_src</span>
+    <span class="kw">let</span> (<span class="ident">guess_src</span>, <span class="ident">guess_path</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">lhs_src</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">rhs_src</span>.<span class="ident">len</span>() {
+        <span class="comment">// TODO: take a Path directly instead.</span>
+        (<span class="kw-2">&amp;</span><span class="ident">lhs_src</span>, <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_display_path</span>))
     } <span class="kw">else</span> {
-        <span class="kw-2">&amp;</span><span class="ident">rhs_src</span>
+        (<span class="kw-2">&amp;</span><span class="ident">rhs_src</span>, <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_display_path</span>))
     };
     <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="ident">language_override</span>.<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">guess</span>(<span class="ident">guess_path</span>, <span class="ident">guess_src</span>));
     <span class="kw">let</span> <span class="ident">lang_config</span> <span class="op">=</span> <span class="ident">language</span>.<span class="ident">map</span>(<span class="ident">tsp::from_language</span>);
